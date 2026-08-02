@@ -83,3 +83,132 @@
 #include <iomanip>
 using namespace std;
 
+const int MAX_STUDENTS = 100;
+const int MAX_SCORES = 10;
+
+// ===== STUDENT STRUCT =====
+struct Student {
+    string name;
+    int id;
+    int scores[MAX_SCORES];
+    int numScores;
+};
+
+Student students[MAX_STUDENTS];
+int studentCount = 0;
+
+// ===== 1. ADD A STUDENT =====
+void addStudent() {
+    if (studentCount >= MAX_STUDENTS) {
+        cout << "❌ Student list is full!\n";
+        return;
+    }
+    Student s;
+    cout << "Enter student name: ";
+    cin.ignore();
+    getline(cin, s.name);
+    
+    cout << "Enter student ID: ";
+    cin >> s.id;
+    
+    cout << "Enter number of scores: ";
+    cin >> s.numScores;
+    if (s.numScores > MAX_SCORES) s.numScores = MAX_SCORES;
+    
+    for (int i = 0; i < s.numScores; i++) {
+        cout << "Enter score " << (i + 1) << ": ";
+        cin >> s.scores[i];
+    }
+    
+    students[studentCount] = s;
+    studentCount++;
+    cout << "✅ Student added successfully!\n";
+}
+
+// ===== 2. VIEW ALL STUDENTS =====
+void viewStudents() {
+    if (studentCount == 0) {
+        cout << "📋 No students in the system yet!\n";
+        return;
+    }
+    cout << "\n===== ALL STUDENT RECORDS =====\n";
+    for (int i = 0; i < studentCount; i++) {
+        cout << "\nStudent #" << (i + 1) << "\n";
+        cout << "Name: " << students[i].name << "\n";
+        cout << "ID: " << students[i].id << "\n";
+        cout << "Scores: ";
+        for (int j = 0; j < students[i].numScores; j++) {
+            cout << students[i].scores[j] << " ";
+        }
+        cout << "\n-------------------------\n";
+    }
+}
+
+// ===== 3. SEARCH STUDENT BY ID =====
+void searchStudent() {
+    if (studentCount == 0) {
+        cout << "📋 No students in the system yet!\n";
+        return;
+    }
+    int searchId;
+    cout << "Enter student ID to search: ";
+    cin >> searchId;
+    
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].id == searchId) {
+            cout << "\n✅ Student Found!\n";
+            cout << "Name: " << students[i].name << "\n";
+            cout << "ID: " << students[i].id << "\n";
+            cout << "Scores: ";
+            for (int j = 0; j < students[i].numScores; j++) {
+                cout << students[i].scores[j] << " ";
+            }
+            cout << "\n";
+            return;
+        }
+    }
+    cout << "❌ Student with ID " << searchId << " not found.\n";
+}
+
+// ===== 4. DISPLAY AVERAGE SCORE =====
+void displayAverage() {
+    if (studentCount == 0) {
+        cout << "📋 No students in the system yet!\n";
+        return;
+    }
+    for (int i = 0; i < studentCount; i++) {
+        int sum = 0;
+        for (int j = 0; j < students[i].numScores; j++) {
+            sum += students[i].scores[j];
+        }
+        double avg = (double)sum / students[i].numScores;
+        cout << students[i].name << " (ID " << students[i].id << ") — Average: " << avg << "\n";
+    }
+}
+
+// ===== MAIN MENU =====
+int main() {
+    int choice;
+    while (true) {
+        cout << "\n===== STUDENT RECORD MANAGEMENT =====\n";
+        cout << "1. Add a Student\n";
+        cout << "2. View All Students\n";
+        cout << "3. Search Student by ID\n";
+        cout << "4. Display Average Scores\n";
+        cout << "5. Quit\n";
+        cout << "Enter your choice (1-5): ";
+        cin >> choice;
+        
+        if (choice == 1) addStudent();
+        else if (choice == 2) viewStudents();
+        else if (choice == 3) searchStudent();
+        else if (choice == 4) displayAverage();
+        else if (choice == 5) {
+            cout << "👋 Goodbye!\n";
+            break;
+        }
+        else cout << "❌ Invalid choice! Try again.\n";
+    }
+    return 0;
+}
+
