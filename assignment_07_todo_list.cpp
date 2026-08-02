@@ -80,3 +80,94 @@
 #include <string>
 using namespace std;
 
+const int MAX_TASKS = 100; // Maximum number of tasks
+string tasks[MAX_TASKS];    // Array to store tasks
+int taskCount = 0;          // Keep track of how many tasks we have
+
+// ===== 1. ADD A TASK =====
+void addTask() {
+    if (taskCount >= MAX_TASKS) {
+        cout << "Sorry, task list is full!\n";
+        return;
+    }
+    string task;
+    cout << "Enter task description: ";
+    cin.ignore(); // Clear leftover newline
+    getline(cin, task);
+    
+    tasks[taskCount] = task;
+    taskCount++;
+    cout << "✅ Task added successfully!\n";
+}
+
+// ===== 2. VIEW ALL TASKS =====
+void viewTasks() {
+    if (taskCount == 0) {
+        cout << "📋 Your to-do list is empty!\n";
+        return;
+    }
+    cout << "\n📋 Your Tasks:\n";
+    for (int i = 0; i < taskCount; i++) {
+        cout << (i + 1) << ". " << tasks[i] << "\n";
+    }
+}
+
+// ===== 3. DELETE A TASK =====
+void deleteTask() {
+    if (taskCount == 0) {
+        cout << "📋 Your to-do list is empty!\n";
+        return;
+    }
+    viewTasks(); // Show list first
+    int num;
+    cout << "\nEnter task number to delete: ";
+    cin >> num;
+    
+    // Check if valid number
+    if (num < 1 || num > taskCount) {
+        cout << "❌ Error: That task number does not exist!\n";
+        return;
+    }
+    
+    // Shift tasks down to fill the gap
+    for (int i = num - 1; i < taskCount - 1; i++) {
+        tasks[i] = tasks[i + 1];
+    }
+    taskCount--;
+    cout << "✅ Task deleted successfully!\n";
+}
+
+// ===== MAIN MENU =====
+int main() {
+    int choice;
+    while (true) { // Keep showing menu until user quits
+        cout << "\n==============================\n";
+        cout << "       TO-DO LIST MENU        \n";
+        cout << "==============================\n";
+        cout << "1. Add task\n";
+        cout << "2. View tasks\n";
+        cout << "3. Delete task\n";
+        cout << "4. Quit\n";
+        cout << "Enter your choice (1-4): ";
+        cin >> choice;
+        
+        if (choice == 1) {
+            addTask();
+        }
+        else if (choice == 2) {
+            viewTasks();
+        }
+        else if (choice == 3) {
+            deleteTask();
+        }
+        else if (choice == 4) {
+            cout << "👋 Goodbye! Have a productive day!\n";
+            break; // Exit program
+        }
+        else {
+            cout << "❌ Invalid choice! Please enter 1-4.\n";
+        }
+    }
+    return 0;
+}
+
