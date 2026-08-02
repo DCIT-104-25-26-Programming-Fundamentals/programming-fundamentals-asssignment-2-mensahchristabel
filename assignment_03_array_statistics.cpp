@@ -40,5 +40,76 @@
 // =============================================================================
 
 #include <iostream>
-using namespace std;
+using namespace std
+
+// Function to calculate sum
+int calculateSum(int numbers[], int n) {
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += numbers[i];
+    }
+    return sum;
+}
+
+// Function to calculate average
+double calculateAverage(int sum, int n) {
+    return (double)sum / n;
+}
+
+// Function to find maximum
+int findMax(int numbers[], int n) {
+    int maxVal = numbers[0];
+    for (int i = 1; i < n; i++) {
+        if (numbers[i] > maxVal) {
+            maxVal = numbers[i];
+        }
+    }
+    return maxVal;
+}
+
+// Function to find minimum
+int findMin(int numbers[], int n) {
+    int minVal = numbers[0];
+    for (int i = 1; i < n; i++) {
+        if (numbers[i] < minVal) {
+            minVal = numbers[i];
+        }
+    }
+    return minVal;
+}
+
+int main() {
+    int n;
+    cout << "How many numbers? ";
+    cin >> n;
+    
+    // Check if N is positive
+    if (n <= 0) {
+        cout << "Error: Number must be positive!" << endl;
+        return 0;
+    }
+    
+    int numbers[100]; // store the numbers
+    
+    // Read each number
+    for (int i = 0; i < n; i++) {
+        cout << "Enter number " << (i + 1) << ": ";
+        cin >> numbers[i];
+    }
+    
+    // Calculate everything
+    int sum = calculateSum(numbers, n);
+    double avg = calculateAverage(sum, n);
+    int maxVal = findMax(numbers, n);
+    int minVal = findMin(numbers, n);
+    
+    // Print results
+    cout << "\nResults:" << endl;
+    cout << "Sum:     " << sum << endl;
+    cout << "Average: " << avg << endl;
+    cout << "Maximum: " << maxVal << endl;
+    cout << "Minimum: " << minVal << endl;
+    
+    return 0;
+}
 
